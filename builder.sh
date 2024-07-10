@@ -50,6 +50,7 @@ autoup_rootfs() {
 copy_to_archive() {
     echo_c 32 "Copying files to local archive"
     mkdir -p "${BUILDER_DIR}/archive/${DEVICE}/${TIMESTAMP}"
+    ls ${FIRMWARE_DIR}/output/images/
     cp -a \
         ${FIRMWARE_DIR}/output/images/rootfs.squashfs.* \
         ${FIRMWARE_DIR}/output/images/uImage.* \
