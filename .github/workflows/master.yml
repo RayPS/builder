@@ -21,7 +21,7 @@ jobs:
       matrix:
         platform:
           - ssc337_ultimate_h3c-tc2101
-          - ssc335_ultimate_h3c_tc-2101
+          - ssc335_ultimate_h3c_tc2101
 
     steps:
       - name: Checkout source
@@ -31,10 +31,6 @@ jobs:
         run: |
           echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
           echo CACHE_DATE=$(date +%m) >> ${GITHUB_ENV}
-          git clone https://github.com/openipc/firmware --depth 1
-
-      - name: Dispatch platform
-        run: |
           INPUT=${{inputs.platform}}
           MATRIX=$(echo ${{matrix.platform}} | cut -d_ -f1)
           if [ -z ${INPUT} ] || [ ${INPUT} = ${MATRIX} ]; then
@@ -65,17 +61,26 @@ jobs:
 
           TIME=$(date -d @${SECONDS} +%M:%S)
           echo TIME=${TIME} >> ${GITHUB_ENV}
+          COMMON=$(echo ${NAME} | awk -F_ '{print NF-1}')
 
           NORFW=$(find output/images -name openipc*nor*)
           if [ ! -z ${NORFW} ]; then
-            mv ${NORFW} ../${NAME}-nor.tgz
-            echo NORFW=${GITHUB_WORKSPACE}/${NAME}-nor.tgz >> ${GITHUB_ENV}
+            if [ ${COMMON} -eq 1 ]; then
+              echo NORFW=openipc/${NORFW} >> ${GITHUB_ENV}
+            else
+              mv ${NORFW} ../${NAME}-nor.tgz
+              echo NORFW=${NAME}-nor.tgz >> ${GITHUB_ENV}
+            fi
           fi
 
           NANDFW=$(find output/images -name openipc*nand*)
           if [ ! -z ${NANDFW} ]; then
-            mv ${NANDFW} ../${NAME}-nand.tgz
-            echo NANDFW=${GITHUB_WORKSPACE}/${NAME}-nand.tgz >> ${GITHUB_ENV}
+            if [ ${COMMON} -eq 1 ]; then
+              echo NANDFW=openipc/${NANDFW} >> ${GITHUB_ENV}
+            else
+              mv ${NANDFW} ../${NAME}-nand.tgz
+              echo NANDFW=${NAME}-nand.tgz >> ${GITHUB_ENV}
+            fi
           fi
 
           if [ -z ${NORFW} ] && [ -z ${NANDFW} ]; then
@@ -90,14 +95,3 @@ jobs:
           files: |
             ${{env.NORFW}}
             ${{env.NANDFW}}
-
-      # - name: Send binary
-      #   if: env.NORFW
-      #   run: |
-      #     TG_MSG="Commit: ${GIT_HASH}\nBranch: ${GIT_BRANCH}\nTag: ${TAG_NAME}\nTime: ${TIME}\n\n"
-      #     TG_ICON="\xE2\x9C\x85 GitHub Actions"
-      #     TG_HEADER=$(echo -e ${TG_MSG}${TG_ICON})
-      #     TG_TOKEN=${{secrets.TELEGRAM_TOKEN_BOT_OPENIPC}}
-      #     TG_CHANNEL=${{secrets.TELEGRAM_CHANNEL_OPENIPC_DEV}}
-      #     HTTP=$(curl -s -o /dev/null -w %{http_code} https://api.telegram.org/bot${TG_TOKEN}/sendDocument -F chat_id=${TG_CHANNEL} -F caption="${TG_HEADER}" -F document=@${NORFW})
-      #     echo Telegram response: ${HTTP}

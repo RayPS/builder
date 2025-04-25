@@ -5,7 +5,7 @@
 #
 # Set custom upgrade url
 #
-fw_setenv upgrade 'https://github.com/RayPS/builder/releases/download/latest/ssc335_ultimate_h3c_tc-2101-nor.tgz'
+fw_setenv upgrade 'https://github.com/RayPS/builder/releases/download/latest/ssc335_ultimate_h3c_tc2101-nor.tgz'
 #
 #
 # Set custom majestic settings
