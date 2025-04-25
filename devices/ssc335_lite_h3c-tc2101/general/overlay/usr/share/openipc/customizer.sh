@@ -5,7 +5,7 @@
 #
 # Set custom upgrade url
 #
-fw_setenv upgrade 'https://github.com/OpenIPC/builder/releases/download/latest/ssc337_lite_h3c-tc2101-nor.tgz'
+fw_setenv upgrade 'https://github.com/RayPS/builder/releases/download/latest/ssc335_lite_h3c-tc2101-nor.tgz'
 #
 #
 # Set custom majestic settings

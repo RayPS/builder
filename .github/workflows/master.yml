@@ -22,6 +22,7 @@ jobs:
         platform:
           - ssc337_ultimate_h3c-tc2101
           - ssc335_ultimate_h3c_tc2101
+          - ssc335_lite_h3c-tc2101
 
     steps:
       - name: Checkout source
