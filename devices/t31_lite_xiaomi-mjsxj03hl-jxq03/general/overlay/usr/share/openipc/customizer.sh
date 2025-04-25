@@ -15,7 +15,7 @@ cli -s .isp.blkCnt 1
 cli -s .nightMode.irCutPin1 49
 cli -s .nightMode.irCutPin2 50
 cli -s .nightMode.backlightPin 60
-cli -s .nightMode.lightMonitor true
+#cli -s .nightMode.lightMonitor true
 cli -s .nightMode.minThreshold 10
 cli -s .nightMode.maxThreshold 100
 cli -s .video0.codec h264
@@ -31,7 +31,7 @@ fw_setenv wlandev rtl8189fs-generic
 #
 # Set osmem and rmem
 #
-fw_setenv osmem 39M
-fw_setenv rmem 25M@0x2700000
+fw_setenv osmem 34M
+fw_setenv rmem 30M@0x2200000
 #
 exit 0

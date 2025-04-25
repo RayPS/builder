@@ -5,17 +5,15 @@
 #
 # Set custom upgrade url
 #
-fw_setenv upgrade 'https://github.com/OpenIPC/builder/releases/download/latest/gk7205v200_lite_vixand-ivg-g3s-nor.tgz'
+fw_setenv upgrade 'https://github.com/OpenIPC/builder/releases/download/latest/gk7205v210_lite_vixand-ivg-g3s-nor.tgz'
 #
 #
 # Set custom majestic settings
 #
-cli -s .system.webAdmin disabled
-cli -s .system.staticDir /var/www/majestic
 cli -s .nightMode.irCutPin1 8
 cli -s .nightMode.irCutPin2 9
 cli -s .nightMode.backlightPin 14
-cli -s .nightMode.lightMonitor true
+#cli -s .nightMode.lightMonitor true
 cli -s .nightMode.minThreshold 2000
 cli -s .nightMode.maxThreshold 14000
 #cli -s .audio.speakerPin 55
